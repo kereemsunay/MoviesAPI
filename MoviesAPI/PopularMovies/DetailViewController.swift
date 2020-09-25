@@ -19,10 +19,13 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var overviewLabel: UILabel!
     @IBOutlet weak var voteAvergaLabel: UILabel!
     @IBOutlet weak var releaseDateLabel: UILabel!
+    @IBOutlet weak var movieFavButton: UIButton!
     
 	var chosenID: Int = 0
 	let network = Network()
 	var detailMovieGenres = [String]()
+	var detailMovie : [Movies] = []
+	var senderTag : Int = 0
 
 	var detail: MovieDetail?{
 		didSet{
@@ -45,6 +48,7 @@ class DetailViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		print("chosenID",chosenID)
+		print("asdasdas",senderTag)
 		fetchDetails()
 	}
     @IBAction func imdbClicked(_ sender: Any) {
@@ -64,7 +68,16 @@ class DetailViewController: UIViewController {
 		}
 		
 	}
-	/*
+	
+	
+    @IBAction func favClicked(_ sender: UIButton) {
+	
+    }
+	
+    @IBAction func backClicked(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    /*
 	// MARK: - Navigation
 	
 	// In a storyboard-based application, you will often want to do a little preparation before navigation

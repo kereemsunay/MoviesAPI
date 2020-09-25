@@ -13,12 +13,13 @@ class ViewController: UIViewController {
     @IBOutlet weak var searchBar: UISearchBar!{
         didSet{
             searchBar.delegate = self
+            
         }
     }
     
     @IBOutlet weak var tableView: UITableView!{
         didSet{
-            tableView.register(UINib(nibName: "MoviesTableViewCell", bundle: nil).self, forCellReuseIdentifier: "MoviesTableViewCell")
+            tableView.register(UINib(nibName: Identifier.MoviesTableViewCell.rawValue, bundle: nil).self, forCellReuseIdentifier: Identifier.MoviesTableViewCell.rawValue)
             tableView.dataSource = self
             tableView.delegate = self
             self.tableView.keyboardDismissMode = .onDrag
@@ -139,6 +140,7 @@ extension ViewController:UITableViewDataSource, UISearchBarDelegate, UITableView
     @objc func favTapped(_ sender: UIButton){
         
         let data = movies[sender.tag]
+        print("sender",sender.tag)
         
         if let index = favListArray.firstIndex(of: data){
             favListArray.remove(at: index)
@@ -178,9 +180,11 @@ extension ViewController:UITableViewDataSource, UISearchBarDelegate, UITableView
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let index: Int = movies[indexPath.row].id ?? 0
+        let selectedItem = searchingFlag ? filteredMovies?[indexPath.row].id : movies[indexPath.row].id
+        print("index",index)
         let detailsVC = UIStoryboard(name: "Movies", bundle: nil).instantiateViewController(withIdentifier: Identifier.DetailVC.rawValue) as! DetailViewController
-        detailsVC.chosenID = index
+        detailsVC.chosenID = selectedItem ?? 0
+        detailsVC.detailMovie = movies
         detailsVC.modalPresentationStyle = .automatic
         //navigationController?.showDetailViewController(detailsVC, sender: nil)
         self.present(detailsVC, animated: true, completion: nil)
@@ -199,7 +203,14 @@ extension ViewController:UITableViewDataSource, UISearchBarDelegate, UITableView
           tableView.reloadData()
           
       }
-    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        // Stop doing the search stuff
+        // and clear the text in the search bar
+        searchBar.text = ""
+        // Hide the cancel button
+        self.view.endEditing(true)
+        // You could also change the position, frame etc of the searchBar
+    }
     
     
 }

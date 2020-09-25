@@ -12,7 +12,7 @@ class FavoritesTableViewController: UIViewController,UITableViewDataSource, UITa
     
     @IBOutlet var favTableView: UITableView!{
         didSet{
-            favTableView.register(UINib(nibName: "FavoritesTableViewCell", bundle: nil).self, forCellReuseIdentifier: "FavoritesTableViewCell")
+            favTableView.register(UINib(nibName: Identifier.FavoritesTableViewCell.rawValue, bundle: nil).self, forCellReuseIdentifier: Identifier.FavoritesTableViewCell.rawValue)
             self.favTableView.keyboardDismissMode = .onDrag
             self.favTableView.tableFooterView = UIView(frame: .zero)
         }
@@ -55,15 +55,22 @@ class FavoritesTableViewController: UIViewController,UITableViewDataSource, UITa
         
     }
      func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = favTableView.dequeueReusableCell(withIdentifier: "FavoritesTableViewCell", for: indexPath) as! FavoritesTableViewCell
+        let cell = favTableView.dequeueReusableCell(withIdentifier: Identifier.FavoritesTableViewCell.rawValue, for: indexPath) as! FavoritesTableViewCell
         cell.configureFavCell(data: favList[indexPath.row])
 
         return cell
     }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let index: Int = favList[indexPath.row].id ?? 0
+        let detailsVC = UIStoryboard(name: Identifier.Movies.rawValue, bundle: nil).instantiateViewController(withIdentifier: Identifier.DetailVC.rawValue) as! DetailViewController
+        detailsVC.chosenID = index
+        detailsVC.modalPresentationStyle = .automatic
+        //navigationController?.showDetailViewController(detailsVC, sender: nil)
+        self.present(detailsVC, animated: true, completion: nil)
+        
+    }
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
       if editingStyle == .delete {
-        print("Deleted")
-        
         //favTableView.reloadData()
         
         

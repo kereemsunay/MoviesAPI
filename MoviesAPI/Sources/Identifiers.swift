@@ -12,4 +12,7 @@ enum Identifier: String {
     case MoviesTableViewCell = "MoviesTableViewCell"
     case DetailVC = "toDetailVC"
     case Options = "Options"
+    case FavoritesTableViewCell = "FavoritesTableViewCell"
+    case Movies = "Movies"
+    
 }

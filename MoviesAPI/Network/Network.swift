@@ -10,7 +10,6 @@ import Foundation
 
 class Network {
     
-    
     func getDataAPI<T: Decodable>(request:URLRequest , completion: @escaping ((Result<T,MovieAPIError>)-> Void)){
         
 
